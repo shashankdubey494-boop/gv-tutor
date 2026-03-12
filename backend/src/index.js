@@ -104,6 +104,10 @@ app.use(csrfOriginGuard(allowedOrigins));
 app.use(csrfTokenGuard);
 app.use(passport.initialize());
 
+app.get("/", (req, res) => {
+  res.send("Server is running 24/7!");
+});
+
 // Mount auth routes at both /auth and /api/auth (for Google OAuth compatibility)
 app.use("/auth", authRoutes);
 app.use("/api/auth", authRoutes);
