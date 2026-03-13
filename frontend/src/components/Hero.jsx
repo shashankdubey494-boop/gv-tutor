@@ -148,7 +148,7 @@ const Hero = () => {
             Choose a trusted tutor for your learning needs or start earning as a home tutor today.
           </p>
 
-          <div className="grid w-full max-w-4xl mx-auto gap-[2px] sm:gap-6 md:grid-cols-2">
+          <div className="grid w-full max-w-4xl mx-auto gap-4 sm:gap-6 md:grid-cols-2">
             <motion.div
               whileHover={{ y: -5 }}
               className="rounded-[1.6rem] p-[1.5px] shadow-[0_24px_60px_rgba(6,182,212,0.12)]"
