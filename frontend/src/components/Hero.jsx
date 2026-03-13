@@ -25,19 +25,16 @@ const Hero = () => {
     {
       title: 'Quiet Zones',
       img: quietZonesImg,
-      borderClass: 'border-cyan-400/70',
       glowClass: 'from-cyan-500/35 via-blue-500/20 to-transparent'
     },
     {
       title: 'Collaborative Tables',
       img: collaborativeTablesImg,
-      borderClass: 'border-violet-400/70',
       glowClass: 'from-violet-500/35 via-fuchsia-500/20 to-transparent'
     },
     {
       title: 'Individual Pods',
       img: individualPodsImg,
-      borderClass: 'border-emerald-400/70',
       glowClass: 'from-emerald-500/35 via-teal-500/20 to-transparent'
     }
   ];
@@ -116,6 +113,19 @@ const Hero = () => {
 
   return (
     <div className="bg-[#05070a] text-white selection:bg-blue-500/30">
+      <style>{`
+        @keyframes heroBorderShift {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+      `}</style>
       
       {/* SECTION 1: HERO */}
       <section className="relative min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 overflow-hidden pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-20">
@@ -180,8 +190,18 @@ const Hero = () => {
             >
               <div className="relative mb-6">
                 <div className={`absolute inset-0 rounded-[2rem] bg-gradient-to-br ${item.glowClass} blur-2xl opacity-80 transition-opacity duration-500 group-hover:opacity-100`} />
-                <div className={`relative aspect-square overflow-hidden rounded-[2rem] border-2 ${item.borderClass} bg-white/5 p-2 shadow-2xl transition-transform duration-500 group-hover:-rotate-1`}>
-                  <img src={item.img} alt={item.title} className="h-full w-full rounded-[1.4rem] object-cover opacity-85 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
+                <div
+                  className="relative aspect-square overflow-hidden rounded-[2rem] p-[2px] shadow-2xl transition-transform duration-500 group-hover:-rotate-1"
+                  style={{
+                    backgroundImage:
+                      'linear-gradient(120deg, rgba(34,211,238,0.95), rgba(96,165,250,0.95), rgba(168,85,247,0.95), rgba(16,185,129,0.95), rgba(34,211,238,0.95))',
+                    backgroundSize: '300% 300%',
+                    animation: 'heroBorderShift 6s ease-in-out infinite'
+                  }}
+                >
+                  <div className="h-full w-full rounded-[1.9rem] bg-[#08111d] p-2">
+                    <img src={item.img} alt={item.title} className="h-full w-full rounded-[1.4rem] object-cover opacity-85 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
+                  </div>
                 </div>
               </div>
               <h4 className="text-2xl sm:text-3xl font-bold">{item.title}</h4>
