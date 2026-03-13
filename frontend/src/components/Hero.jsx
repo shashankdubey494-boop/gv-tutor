@@ -21,6 +21,26 @@ const Hero = () => {
     { src: premiumTuitionImg, position: 'center' },
     { src: premiumGroupImg, position: 'center' }
   ];
+  const missionCards = [
+    {
+      title: 'Quiet Zones',
+      img: quietZonesImg,
+      borderClass: 'border-cyan-400/70',
+      glowClass: 'from-cyan-500/35 via-blue-500/20 to-transparent'
+    },
+    {
+      title: 'Collaborative Tables',
+      img: collaborativeTablesImg,
+      borderClass: 'border-violet-400/70',
+      glowClass: 'from-violet-500/35 via-fuchsia-500/20 to-transparent'
+    },
+    {
+      title: 'Individual Pods',
+      img: individualPodsImg,
+      borderClass: 'border-emerald-400/70',
+      glowClass: 'from-emerald-500/35 via-teal-500/20 to-transparent'
+    }
+  ];
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -98,7 +118,7 @@ const Hero = () => {
     <div className="bg-[#05070a] text-white selection:bg-blue-500/30">
       
       {/* SECTION 1: HERO */}
-      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 overflow-hidden pt-32 md:pt-40">
+      <section className="relative min-h-screen flex flex-col justify-center items-center px-4 sm:px-6 overflow-hidden pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-20">
         {/* Animated Background Glows */}
         <div className="absolute top-0 -left-20 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 -right-20 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
@@ -107,19 +127,20 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          className="text-center z-10"
+          className="text-center z-10 w-full max-w-6xl"
         >
-          <h1 className="text-4xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-gray-400">
-            <span className="block md:hidden">Connect with the <br/><span className="text-blue-500">best tutors</span> <br/>in your area</span>
-            <span className="hidden md:block">Connecting students with the <br/><span className="text-blue-500">best home tutors</span> in your area</span>
+          <h1 className="mx-auto max-w-5xl text-[clamp(2.9rem,8vw,6.5rem)] font-extrabold tracking-[-0.04em] leading-[0.9] mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
+            <span className="block sm:hidden">Connect with the <span className="text-blue-500">best tutors</span> in your area</span>
+            <span className="hidden sm:block lg:hidden">Connecting students with <span className="text-blue-500">top home tutors</span> near you</span>
+            <span className="hidden lg:block">Connecting students with the <br/><span className="text-blue-500">best home tutors</span> in your area</span>
           </h1>
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
+          <p className="text-gray-400 text-base sm:text-lg lg:text-xl max-w-3xl mx-auto mb-10 sm:mb-12 px-2">
             Choose a trusted tutor for your learning needs or start earning as a home tutor today.
           </p>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <motion.div whileHover={{ y: -5 }} className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl">
-              <h3 className="text-xl font-bold mb-4">Find the right tutor</h3>
+          <div className="grid w-full max-w-4xl mx-auto gap-4 sm:gap-6 md:grid-cols-2">
+            <motion.div whileHover={{ y: -5 }} className="p-6 sm:p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4">Find the right tutor</h3>
               <button 
                 onClick={() => navigate("/find-tutor")}
                 className="w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/20"
@@ -127,8 +148,8 @@ const Hero = () => {
                 Find Tutor
               </button>
             </motion.div>
-            <motion.div whileHover={{ y: -5 }} className="p-8 rounded-3xl bg-white/5 border border-pink-500/20 backdrop-blur-xl">
-              <h3 className="text-xl font-bold mb-4">Become a home tutor</h3>
+            <motion.div whileHover={{ y: -5 }} className="p-6 sm:p-8 rounded-3xl bg-white/5 border border-pink-500/20 backdrop-blur-xl">
+              <h3 className="text-xl sm:text-2xl font-bold mb-4">Become a home tutor</h3>
               <button
                 type="button"
                 onClick={async () => {
@@ -144,27 +165,26 @@ const Hero = () => {
       </section>
 
       {/* SECTION 2: ABOUT MISSION */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
+      <section className="py-20 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
         <motion.div {...fadeIn} className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Our Goodwill Ready & Mission</h2>
-          <p className="text-gray-400 max-w-xl mx-auto">Providing quiet spaces for focused reading and connecting the brightest minds through personalized tutoring.</p>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Our Goodwill Ready & Mission</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg">Providing quiet spaces for focused reading and connecting the brightest minds through personalized tutoring.</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-12">
-          {[
-            { title: "Quiet Zones", img: quietZonesImg },
-            { title: "Collaborative Tables", img: collaborativeTablesImg },
-            { title: "Individual Pods", img: individualPodsImg }
-          ].map((item, i) => (
+        <div className="grid gap-8 sm:gap-10 md:grid-cols-2 xl:grid-cols-3">
+          {missionCards.map((item, i) => (
             <motion.div 
               key={i}
-              whileHover={{ scale: 1.05 }}
-              className="group text-center"
+              whileHover={{ y: -8 }}
+              className="group text-center max-w-sm mx-auto w-full"
             >
-              <div className="w-64 h-64 mx-auto rounded-full overflow-hidden border-2 border-blue-500/20 group-hover:border-blue-500 transition-colors mb-6">
-                <img src={item.img} alt={item.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+              <div className="relative mb-6">
+                <div className={`absolute inset-0 rounded-[2rem] bg-gradient-to-br ${item.glowClass} blur-2xl opacity-80 transition-opacity duration-500 group-hover:opacity-100`} />
+                <div className={`relative aspect-square overflow-hidden rounded-[2rem] border-2 ${item.borderClass} bg-white/5 p-2 shadow-2xl transition-transform duration-500 group-hover:-rotate-1`}>
+                  <img src={item.img} alt={item.title} className="h-full w-full rounded-[1.4rem] object-cover opacity-85 transition duration-500 group-hover:scale-105 group-hover:opacity-100" />
+                </div>
               </div>
-              <h4 className="text-2xl font-bold">{item.title}</h4>
+              <h4 className="text-2xl sm:text-3xl font-bold">{item.title}</h4>
             </motion.div>
           ))}
         </div>

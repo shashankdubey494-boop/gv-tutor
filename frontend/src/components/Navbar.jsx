@@ -20,6 +20,7 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -91,21 +92,37 @@ export default function Navbar() {
     checkUser();
   }, [location.pathname, location.search]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 24);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 w-full h-24 z-50 backdrop-blur-md bg-slate-900/95 border-b border-slate-700/50">
-      <div className="max-w-7xl mx-auto px-6 h-full flex items-center relative">
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 border-b transition-all duration-300 ${
+        isScrolled
+          ? "bg-slate-950/35 backdrop-blur-xl border-white/10"
+          : "bg-slate-900/90 backdrop-blur-md border-slate-700/40"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 sm:h-24 flex items-center relative">
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 z-10">
           <img 
             src="/logo.png" 
             alt="Goodwill Tutor Logo" 
-            className="h-16 w-auto object-contain hover:scale-105 transition-transform duration-300"
+            className="h-12 sm:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300"
           />
         </Link>
 
         {/* Desktop Menu - Centered */}
-        <ul className="hidden md:flex gap-8 text-white text-lg items-center absolute left-1/2 transform -translate-x-1/2">
+        <ul className="hidden lg:flex gap-8 text-white text-lg items-center absolute left-1/2 transform -translate-x-1/2">
           <Link to="/" className="hover:text-cyan-400 transition-colors">Home</Link>
           <Link to="/about" className="hover:text-cyan-400 transition-colors">About</Link>
 
@@ -148,7 +165,7 @@ export default function Navbar() {
         </ul>
 
         {/* Desktop Buttons / Profile - Right Side */}
-        <div className="hidden md:flex gap-4 items-center ml-auto z-10">
+        <div className="hidden lg:flex gap-4 items-center ml-auto z-10">
           {loading ? (
             <div className="w-8 h-8 rounded-full bg-gray-600 animate-pulse"></div>
           ) : user && user.role === "admin" ? (
@@ -351,7 +368,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Icon - Right Side */}
         <div
-          className="md:hidden text-white/90 hover:text-white cursor-pointer transition-colors ml-auto"
+          className="lg:hidden text-white/90 hover:text-white cursor-pointer transition-colors ml-auto"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
@@ -360,7 +377,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Panel */}
       {menuOpen && (
-        <div className="md:hidden bg-gradient-to-b from-slate-900/95 to-black/95 backdrop-blur-3xl text-white p-5 space-y-3 border-t border-white/10 animate-in fade-in slide-in-from-top-2 duration-300 shadow-2xl h-[calc(100vh-96px)]">
+        <div className="lg:hidden bg-gradient-to-b from-slate-900/95 to-black/95 backdrop-blur-3xl text-white p-5 space-y-3 border-t border-white/10 animate-in fade-in slide-in-from-top-2 duration-300 shadow-2xl h-[calc(100vh-80px)] sm:h-[calc(100vh-96px)] overflow-y-auto">
           <Link
             to="/"
             onClick={() => setMenuOpen(false)}
