@@ -148,27 +148,49 @@ const Hero = () => {
             Choose a trusted tutor for your learning needs or start earning as a home tutor today.
           </p>
 
-          <div className="grid w-full max-w-4xl mx-auto gap-4 sm:gap-6 md:grid-cols-2">
-            <motion.div whileHover={{ y: -5 }} className="p-6 sm:p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl">
-              <h3 className="text-xl sm:text-2xl font-bold mb-4">Find the right tutor</h3>
-              <button 
-                onClick={() => navigate("/find-tutor")}
-                className="w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/20"
-              >
-                Find Tutor
-              </button>
+          <div className="grid w-full max-w-4xl mx-auto gap-[2px] sm:gap-6 md:grid-cols-2">
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="rounded-[1.6rem] p-[1.5px] shadow-[0_24px_60px_rgba(6,182,212,0.12)]"
+              style={{
+                backgroundImage:
+                  'linear-gradient(120deg, rgba(34,211,238,0.9), rgba(59,130,246,0.95), rgba(168,85,247,0.9), rgba(16,185,129,0.85), rgba(34,211,238,0.9))',
+                backgroundSize: '250% 250%',
+                animation: 'heroBorderShift 7s linear infinite'
+              }}
+            >
+              <div className="rounded-[calc(1.6rem-1.5px)] bg-[rgba(10,14,20,0.92)] backdrop-blur-xl p-6 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4">Find the right tutor</h3>
+                <button 
+                  onClick={() => navigate("/find-tutor")}
+                  className="w-full py-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition-all shadow-lg shadow-blue-600/20"
+                >
+                  Find Tutor
+                </button>
+              </div>
             </motion.div>
-            <motion.div whileHover={{ y: -5 }} className="p-6 sm:p-8 rounded-3xl bg-white/5 border border-pink-500/20 backdrop-blur-xl">
-              <h3 className="text-xl sm:text-2xl font-bold mb-4">Become a home tutor</h3>
-              <button
-                type="button"
-                onClick={async () => {
-                  await handleApplyAsTutor(navigate);
-                }}
-                className="w-full py-4 bg-pink-600 hover:bg-pink-700 rounded-xl font-semibold transition-all shadow-lg shadow-pink-600/20"
-              >
-                Apply as Tutor
-              </button>
+            <motion.div
+              whileHover={{ y: -5 }}
+              className="rounded-[1.6rem] p-[1.5px] shadow-[0_24px_60px_rgba(236,72,153,0.14)]"
+              style={{
+                backgroundImage:
+                  'linear-gradient(120deg, rgba(236,72,153,0.92), rgba(168,85,247,0.92), rgba(34,211,238,0.88), rgba(244,63,94,0.9), rgba(236,72,153,0.92))',
+                backgroundSize: '250% 250%',
+                animation: 'heroBorderShift 7s linear infinite reverse'
+              }}
+            >
+              <div className="rounded-[calc(1.6rem-1.5px)] bg-[rgba(14,11,23,0.92)] backdrop-blur-xl p-6 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-bold mb-4">Become a home tutor</h3>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await handleApplyAsTutor(navigate);
+                  }}
+                  className="w-full py-4 bg-pink-600 hover:bg-pink-700 rounded-xl font-semibold transition-all shadow-lg shadow-pink-600/20"
+                >
+                  Apply as Tutor
+                </button>
+              </div>
             </motion.div>
           </div>
         </motion.div>
