@@ -129,7 +129,7 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="text-center z-10 w-full max-w-6xl"
         >
-          <h1 className="mx-auto max-w-6xl text-[clamp(2.9rem,6vw,5.6rem)] font-extrabold tracking-[-0.04em] leading-[0.92] mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
+          <h1 className="mx-auto max-w-6xl text-[clamp(2.9rem,6vw,5.6rem)] font-extrabold tracking-[-0.04em] leading-[0.98] mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400">
             <span className="block sm:hidden">Connect with the <span className="text-blue-500">best tutors</span> in your area</span>
             <span className="hidden sm:block lg:hidden">Connecting students with <span className="text-blue-500">top home tutors</span> near you</span>
             <span className="hidden lg:block">Connecting students with the <br/><span className="text-blue-500">best home tutors</span> in your area</span>
