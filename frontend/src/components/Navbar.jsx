@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { handleApplyAsTutor } from "../utils/authHelper";
 import { verifyAuth, logoutUser } from "../services/authService";
 import { getTutorProfile } from "../services/tutorService";
+import BrandLogo from "./BrandLogo";
 import {
   Home, Info, GraduationCap, Library, Phone,
   Search, BookOpen, User, LogIn, LogOut,
@@ -114,10 +115,9 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 z-10">
-          <img 
-            src="/logo.png" 
-            alt="Goodwill Tutor Logo" 
-            className="h-12 sm:h-16 w-auto object-contain hover:scale-105 transition-transform duration-300"
+          <BrandLogo
+            className="transition-transform duration-300 hover:scale-105"
+            imageClassName="h-10 sm:h-12"
           />
         </Link>
 

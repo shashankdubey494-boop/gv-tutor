@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { verifyAuth, logoutUser } from "../services/authService";
 import { apiRequest } from "../services/api";
 import { getContactMessages, updateMessageStatus, deleteContactMessage } from "../services/contactService";
+import BrandLogo from "../components/BrandLogo";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useToast } from "../components/Toast";
 import ToastContainer from "../components/Toast";
@@ -529,10 +530,9 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img
-              src="/logo.png"
-              alt="Goodwill Tutor Logo"
-              className="h-16 w-auto object-contain hover:scale-105 transition-transform duration-300"
+            <BrandLogo
+              className="transition-transform duration-300 hover:scale-105"
+              imageClassName="h-12 sm:h-14"
             />
           </Link>
 
