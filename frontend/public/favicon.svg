@@ -2,21 +2,10 @@
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#020617" />
-      <stop offset="100%" stop-color="#0f172a" />
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#67e8f9" />
-      <stop offset="50%" stop-color="#60a5fa" />
-      <stop offset="100%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#111827" />
     </linearGradient>
   </defs>
   <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#bg)" />
-  <path
-    d="M18 43V22h8.7c5.6 0 9.3 2.9 9.3 8.1 0 5.3-3.7 8.2-9.3 8.2h-3.6V43H18zm5.1-8.8h2.8c3.1 0 4.9-1.2 4.9-4.1 0-2.8-1.8-3.9-4.9-3.9h-2.8v8z"
-    fill="url(#accent)"
-  />
-  <path
-    d="M39.5 43V22h5.1v8.2h.2l6.3-8.2h5.7L49.9 31l7.3 12h-5.8l-4.8-8.1-2 2.5V43h-5.1z"
-    fill="#e2e8f0"
-  />
+  <rect x="5" y="5" width="54" height="54" rx="15" fill="none" stroke="#67e8f9" stroke-opacity="0.28" />
+  <image href="/logo.png" x="10" y="10" width="44" height="44" preserveAspectRatio="xMidYMid meet" />
 </svg>
