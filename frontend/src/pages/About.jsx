@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import quietZonesImg from "../assets/quiet zones.jpeg";
 import collaborativeTablesImg from "../assets/photogood.jpeg";
+import SiteFooter from "../components/SiteFooter";
 
 const serviceCards = [
   {
@@ -44,8 +46,26 @@ export default function About() {
   const activeService = serviceCards.find((card) => card.id === activeCard) || serviceCards[0];
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdf7_0%,#f9fbff_32%,#fef7ff_100%)] pt-28 px-4 pb-20 text-slate-900">
-      <div className="max-w-7xl mx-auto space-y-10">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdf7_0%,#f9fbff_32%,#fef7ff_100%)] pt-28 text-slate-900">
+      <div className="pointer-events-none absolute inset-x-0 top-24 overflow-hidden">
+        <motion.div
+          animate={{ x: [0, 36, 0], y: [0, -18, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-[8%] top-10 h-40 w-40 rounded-full bg-cyan-200/40 blur-3xl"
+        />
+        <motion.div
+          animate={{ x: [0, -28, 0], y: [0, 26, 0] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute right-[10%] top-0 h-56 w-56 rounded-full bg-fuchsia-200/35 blur-3xl"
+        />
+        <motion.div
+          animate={{ x: [0, 16, 0], y: [0, 22, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-1/2 top-44 h-28 w-28 -translate-x-1/2 rounded-full bg-amber-200/25 blur-2xl"
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto space-y-10 px-4 pb-20">
         <section className="relative overflow-hidden rounded-[2rem] border border-cyan-200/70 bg-gradient-to-br from-white via-cyan-50/80 to-fuchsia-50/80 px-6 py-12 sm:px-10 sm:py-14 shadow-[0_30px_80px_rgba(14,165,233,0.10)]">
           <div className="absolute -top-20 right-0 h-64 w-64 rounded-full bg-cyan-300/30 blur-3xl" />
           <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-fuchsia-300/25 blur-3xl" />
@@ -60,6 +80,27 @@ export default function About() {
               We now present Goodwill Home Tutor and Goodwill Coaching as two clear offerings so visitors can immediately understand where they fit best.
             </p>
           </div>
+        </section>
+
+        <section className="grid gap-4 sm:grid-cols-3">
+          {[
+            { label: "Programs", value: "2 focused learning models" },
+            { label: "Approach", value: "Personal + structured guidance" },
+            { label: "Experience", value: "Clear fit for every student" }
+          ].map((item, index) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: index * 0.08 }}
+              whileHover={{ y: -4 }}
+              className="rounded-[1.4rem] border border-white/80 bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(15,23,42,0.05)] backdrop-blur-sm"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-700">{item.label}</p>
+              <p className="mt-3 text-lg font-semibold text-slate-900">{item.value}</p>
+            </motion.div>
+          ))}
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.1fr_1.4fr]">
@@ -134,6 +175,8 @@ export default function About() {
           </div>
         </section>
       </div>
+
+      <SiteFooter />
     </div>
   );
 }
