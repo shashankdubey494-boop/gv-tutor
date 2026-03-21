@@ -150,22 +150,20 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="relative overflow-hidden rounded-[2.25rem] border border-white/70 bg-[linear-gradient(135deg,rgba(255,247,251,0.72),rgba(240,249,255,0.68))] p-6 shadow-[0_35px_110px_rgba(148,163,184,0.20),0_18px_50px_rgba(244,114,182,0.16)] ring-1 ring-rose-100/60 backdrop-blur-xl sm:p-10"
+          className="relative overflow-hidden rounded-[2.25rem] border border-rose-200/80 bg-gradient-to-r from-[#fff7ef] via-[#fff9fd] to-[#eefbff] p-6 shadow-[0_30px_90px_rgba(244,114,182,0.14)] sm:p-10"
         >
-          <div className="absolute -left-10 top-10 h-36 w-36 rounded-full bg-rose-200/35 blur-3xl" />
-          <div className="absolute -right-12 bottom-0 h-44 w-44 rounded-full bg-sky-200/40 blur-3xl" />
-          <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.40),transparent_30%,rgba(255,255,255,0.22)_58%,transparent_78%)]" />
+          <div className="absolute -left-10 top-10 h-36 w-36 rounded-full bg-rose-200/30 blur-3xl" />
+          <div className="absolute -right-12 bottom-0 h-44 w-44 rounded-full bg-sky-200/35 blur-3xl" />
 
           <div className="relative grid items-center gap-8 lg:grid-cols-[320px,1fr]">
             <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
               <div className="relative">
                 <div className="absolute inset-0 scale-110 rounded-full bg-gradient-to-br from-rose-300 via-pink-200 to-sky-200 blur-2xl opacity-60" />
-                <div className="absolute inset-[-12px] rounded-full border border-white/60 bg-white/25 shadow-[0_24px_70px_rgba(244,114,182,0.20)] backdrop-blur-md" />
-                <div className="relative h-60 w-60 overflow-hidden rounded-full border-[10px] border-white/90 shadow-[0_28px_80px_rgba(15,23,42,0.16),0_16px_44px_rgba(244,114,182,0.18)]">
+                <div className="relative h-56 w-56 overflow-hidden rounded-full border-[8px] border-white/90 shadow-[0_20px_60px_rgba(244,114,182,0.22)]">
                   <img
                     src={founderImage}
                     alt="Amit Sahu, Founder of Goodwill Education"
-                    className="h-full w-full scale-[0.88] object-cover object-center"
+                    className="h-full w-full object-cover"
                   />
                 </div>
               </div>
@@ -177,8 +175,8 @@ export default function About() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/75 bg-[linear-gradient(145deg,rgba(255,255,255,0.76),rgba(255,240,246,0.60))] p-6 shadow-[0_26px_80px_rgba(15,23,42,0.10),inset_0_1px_0_rgba(255,255,255,0.65)] ring-1 ring-rose-100/60 backdrop-blur-xl sm:p-8">
-              <span className="inline-flex items-center rounded-full border border-rose-200/80 bg-rose-50/85 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-rose-600 shadow-sm">
+            <div className="rounded-[2rem] border border-white/80 bg-white/75 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur-sm sm:p-8">
+              <span className="inline-flex items-center rounded-full bg-rose-100 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-rose-600">
                 Vision & Leadership
               </span>
               <p className="mt-5 text-lg leading-relaxed text-slate-700">
