@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import SiteFooter from "../components/SiteFooter";
-import founderImage from "../assets/founder1.jpeg";
+import founderImage from "../assets/founder2.png";
 import { aboutShowcases } from "../data/showcaseContent";
 
 export default function About() {
@@ -163,7 +163,7 @@ export default function About() {
                   <img
                     src={founderImage}
                     alt="Amit Sahu, Founder of Goodwill Education"
-                    className="h-full w-full object-cover"
+                    className="h-full w-full scale-[0.9] object-cover object-[center_22%]"
                   />
                 </div>
               </div>
