@@ -33,7 +33,7 @@ export default function About() {
       </div>
 
       <div className="mx-auto max-w-7xl space-y-10 px-4 pb-20">
-        <section className="relative overflow-hidden rounded-[2rem] border border-amber-200/90 bg-gradient-to-br from-[#fff6fb] via-[#fff5c9] to-[#ffe9bf] px-6 py-12 shadow-[0_30px_80px_rgba(251,191,36,0.20)] sm:px-10 sm:py-14">
+        <section className="relative overflow-hidden rounded-[2rem] border border-amber-200/90 bg-gradient-to-br from-[#fff6fb] via-[#fff5c9] to-[#ffe9bf] px-6 py-12 shadow-[0_40px_95px_rgba(251,191,36,0.28),0_14px_35px_rgba(244,114,182,0.14)] sm:px-10 sm:py-14">
           <div className="absolute inset-y-0 right-0 w-1/3 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.6),transparent_70%)]" />
           <div className="relative z-10 max-w-4xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-rose-300/70 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-rose-600">
@@ -61,7 +61,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className="rounded-[1.4rem] border border-emerald-200/80 bg-gradient-to-br from-emerald-50 via-lime-50 to-teal-50 px-5 py-5 shadow-[0_18px_40px_rgba(16,185,129,0.16)] backdrop-blur-sm"
+              className="rounded-[1.4rem] border border-emerald-200/80 bg-gradient-to-br from-emerald-50 via-lime-50 to-teal-50 px-5 py-5 shadow-[0_24px_55px_rgba(16,185,129,0.24),0_10px_24px_rgba(15,23,42,0.09)] backdrop-blur-sm"
             >
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-700">{item.label}</p>
               <p className="mt-3 text-lg font-semibold text-slate-900">{item.value}</p>
@@ -82,7 +82,7 @@ export default function About() {
             >
               <Link
                 to={`/about/${item.slug}`}
-                className="block overflow-hidden rounded-[2rem] border border-amber-200/70 bg-gradient-to-br from-[#fff7fb] via-[#fff8d9] to-[#ffedd5] shadow-[0_24px_70px_rgba(251,191,36,0.16)] backdrop-blur-sm"
+                className="block overflow-hidden rounded-[2rem] border border-amber-200/70 bg-gradient-to-br from-[#fff7fb] via-[#fff8d9] to-[#ffedd5] shadow-[0_34px_88px_rgba(251,191,36,0.24),0_12px_30px_rgba(244,114,182,0.14)] backdrop-blur-sm"
               >
                 <div className="relative h-72 overflow-hidden">
                   <img
@@ -150,7 +150,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.55 }}
-          className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-hidden border-y border-amber-200/85 bg-gradient-to-r from-[#fff6fb] via-[#fff3bf] to-[#ffe7c7] px-6 py-16 shadow-[0_30px_90px_rgba(251,191,36,0.20)] sm:px-10"
+          className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-hidden border-y border-amber-200/85 bg-gradient-to-r from-[#fff6fb] via-[#fff3bf] to-[#ffe7c7] px-6 py-16 shadow-[0_40px_105px_rgba(251,191,36,0.26),0_14px_32px_rgba(244,114,182,0.12)] sm:px-10"
         >
           <div className="absolute -left-10 top-10 h-36 w-36 rounded-full bg-rose-200/30 blur-3xl" />
           <div className="absolute -right-12 bottom-0 h-44 w-44 rounded-full bg-sky-200/35 blur-3xl" />
@@ -176,7 +176,7 @@ export default function About() {
               </div>
             </div>
 
-            <div className="rounded-[2rem] border border-white/80 bg-white/75 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur-sm sm:p-8">
+            <div className="rounded-[2rem] border border-white/80 bg-white/75 p-6 shadow-[0_30px_85px_rgba(15,23,42,0.14),0_10px_24px_rgba(244,114,182,0.12)] backdrop-blur-sm sm:p-8">
               <span className="inline-flex items-center rounded-full bg-rose-100 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-rose-600">
                 Vision & Leadership
               </span>
