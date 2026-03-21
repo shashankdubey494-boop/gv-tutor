@@ -165,7 +165,7 @@ export default function About() {
                   <img
                     src={founderImage}
                     alt="Amit Sahu, Founder of Goodwill Education"
-                    className="h-full w-full scale-[0.92] object-cover object-center object-top"
+                    className="h-full w-full scale-[0.88] object-cover object-center"
                   />
                 </div>
               </div>
