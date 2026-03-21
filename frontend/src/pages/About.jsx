@@ -2,34 +2,41 @@ import { motion } from "framer-motion";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import SiteFooter from "../components/SiteFooter";
+import founderImage from "../assets/founder.jpeg";
 import { aboutShowcases } from "../data/showcaseContent";
 
 export default function About() {
+  const founderHighlights = [
+    "Affordable learning vision",
+    "Student-first academic support",
+    "Focused on quality education"
+  ];
+
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdf7_0%,#f7fbff_38%,#fff8fb_100%)] pt-28 text-slate-900">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#fffef8_0%,#f7fdff_28%,#fff4f8_64%,#fff9f1_100%)] pt-28 text-slate-900">
       <div className="pointer-events-none absolute inset-x-0 top-24 overflow-hidden">
         <motion.div
           animate={{ x: [0, 32, 0], y: [0, -18, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-[7%] top-12 h-44 w-44 rounded-full bg-cyan-200/40 blur-3xl"
+          className="absolute left-[7%] top-12 h-44 w-44 rounded-full bg-sky-200/45 blur-3xl"
         />
         <motion.div
           animate={{ x: [0, -26, 0], y: [0, 24, 0] }}
           transition={{ duration: 13, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute right-[8%] top-0 h-56 w-56 rounded-full bg-fuchsia-200/35 blur-3xl"
+          className="absolute right-[8%] top-0 h-56 w-56 rounded-full bg-rose-200/45 blur-3xl"
         />
         <motion.div
           animate={{ x: [0, 20, 0], y: [0, 18, 0] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute left-1/2 top-48 h-28 w-28 -translate-x-1/2 rounded-full bg-amber-200/25 blur-2xl"
+          className="absolute left-1/2 top-48 h-28 w-28 -translate-x-1/2 rounded-full bg-orange-200/30 blur-2xl"
         />
       </div>
 
       <div className="mx-auto max-w-7xl space-y-10 px-4 pb-20">
-        <section className="relative overflow-hidden rounded-[2rem] border border-cyan-200/80 bg-gradient-to-br from-white via-cyan-50/80 to-fuchsia-50/70 px-6 py-12 shadow-[0_30px_80px_rgba(14,165,233,0.10)] sm:px-10 sm:py-14">
+        <section className="relative overflow-hidden rounded-[2rem] border border-rose-200/80 bg-gradient-to-br from-white via-sky-50/80 to-rose-50 px-6 py-12 shadow-[0_30px_80px_rgba(244,114,182,0.12)] sm:px-10 sm:py-14">
           <div className="absolute inset-y-0 right-0 w-1/3 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.6),transparent_70%)]" />
           <div className="relative z-10 max-w-4xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-cyan-700">
+            <span className="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/85 px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-rose-600">
               <Sparkles size={14} />
               About GoodwillEdu
             </span>
@@ -44,9 +51,9 @@ export default function About() {
 
         <section className="grid gap-4 sm:grid-cols-3">
           {[
-            { label: "Experiences", value: "2 premium education paths" },
-            { label: "Structure", value: "Clickable detail pages" },
-            { label: "Ready for", value: "Images, video, and content growth" }
+              { label: "Experiences", value: "2 premium education paths" },
+              { label: "Structure", value: "Clickable detail pages" },
+              { label: "Ready for", value: "Images, video, and content growth" }
           ].map((item, index) => (
             <motion.div
               key={item.label}
@@ -54,9 +61,9 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
-              className="rounded-[1.4rem] border border-white/80 bg-white/80 px-5 py-5 shadow-[0_18px_40px_rgba(15,23,42,0.05)] backdrop-blur-sm"
+              className="rounded-[1.4rem] border border-rose-100/80 bg-white/85 px-5 py-5 shadow-[0_18px_40px_rgba(244,114,182,0.08)] backdrop-blur-sm"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-700">{item.label}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-rose-500">{item.label}</p>
               <p className="mt-3 text-lg font-semibold text-slate-900">{item.value}</p>
             </motion.div>
           ))}
@@ -75,7 +82,7 @@ export default function About() {
             >
               <Link
                 to={`/about/${item.slug}`}
-                className="block overflow-hidden rounded-[2rem] border border-cyan-200/80 bg-white/85 shadow-[0_24px_70px_rgba(15,23,42,0.08)] backdrop-blur-sm"
+                className="block overflow-hidden rounded-[2rem] border border-rose-100/80 bg-white/90 shadow-[0_24px_70px_rgba(244,114,182,0.10)] backdrop-blur-sm"
               >
                 <div className="relative h-72 overflow-hidden">
                   <img
@@ -106,7 +113,7 @@ export default function About() {
                     {item.previewPoints.map((point) => (
                       <span
                         key={point}
-                        className="rounded-full border border-cyan-100 bg-cyan-50 px-3 py-1 text-xs font-medium text-slate-700"
+                        className="rounded-full border border-rose-100 bg-rose-50 px-3 py-1 text-xs font-medium text-rose-700"
                       >
                         {point}
                       </span>
@@ -117,9 +124,9 @@ export default function About() {
                     {item.metrics.map((metric) => (
                       <div
                         key={metric.label}
-                        className="rounded-2xl border border-slate-200/80 bg-slate-50/80 px-4 py-4"
+                        className="rounded-2xl border border-rose-100/80 bg-gradient-to-br from-white to-rose-50/70 px-4 py-4"
                       >
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">{metric.label}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-400">{metric.label}</p>
                         <p className="mt-2 text-base font-semibold text-slate-900">{metric.value}</p>
                       </div>
                     ))}
@@ -127,7 +134,7 @@ export default function About() {
 
                   <div className="flex items-center justify-between border-t border-slate-100 pt-2">
                     <span className="text-sm font-medium text-slate-500">Open the full content page</span>
-                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-700">
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-rose-600">
                       Explore details
                       <ArrowRight size={16} />
                     </span>
@@ -137,6 +144,59 @@ export default function About() {
             </motion.div>
           ))}
         </section>
+
+        <motion.section
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+          className="relative overflow-hidden rounded-[2.25rem] border border-rose-200/80 bg-gradient-to-r from-[#fff7ef] via-[#fff9fd] to-[#eefbff] p-6 shadow-[0_30px_90px_rgba(244,114,182,0.14)] sm:p-10"
+        >
+          <div className="absolute -left-10 top-10 h-36 w-36 rounded-full bg-rose-200/30 blur-3xl" />
+          <div className="absolute -right-12 bottom-0 h-44 w-44 rounded-full bg-sky-200/35 blur-3xl" />
+
+          <div className="relative grid items-center gap-8 lg:grid-cols-[320px,1fr]">
+            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+              <div className="relative">
+                <div className="absolute inset-0 scale-110 rounded-full bg-gradient-to-br from-rose-300 via-pink-200 to-sky-200 blur-2xl opacity-60" />
+                <div className="relative h-56 w-56 overflow-hidden rounded-full border-[8px] border-white/90 shadow-[0_20px_60px_rgba(244,114,182,0.22)]">
+                  <img
+                    src={founderImage}
+                    alt="Amit Sahu, Founder of Goodwill Education"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-500">Meet Our Founder</p>
+                <h2 className="mt-3 text-3xl font-bold text-slate-900">Amit Sahu</h2>
+                <p className="mt-2 text-lg font-medium text-rose-600">Founder - Goodwill Education</p>
+              </div>
+            </div>
+
+            <div className="rounded-[2rem] border border-white/80 bg-white/75 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur-sm sm:p-8">
+              <span className="inline-flex items-center rounded-full bg-rose-100 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-rose-600">
+                Vision & Leadership
+              </span>
+              <p className="mt-5 text-lg leading-relaxed text-slate-700">
+                Goodwill Education is founded and led by Amit Sahu, with a vision to provide affordable and quality education to every student.
+                With dedication and passion, he is committed to helping students achieve their academic goals and build a better future.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                {founderHighlights.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 px-4 py-2 text-sm font-medium text-rose-700"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.section>
       </div>
 
       <SiteFooter />
