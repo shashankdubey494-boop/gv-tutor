@@ -171,7 +171,15 @@ export default function AboutDetail() {
                 whileHover={{ y: -4, scale: 1.01 }}
                 className="overflow-hidden rounded-[1.6rem] border border-cyan-100 bg-slate-50 shadow-[0_14px_34px_rgba(14,165,233,0.13)]"
               >
-                <img src={image} alt={`${item.eyebrow} gallery ${index + 1}`} className="h-72 w-full object-cover" />
+                <img
+                  src={image}
+                  alt={`${item.eyebrow} gallery ${index + 1}`}
+                  className={`h-72 w-full ${
+                    item.slug === "coaching" && index === 1
+                      ? "bg-white object-contain p-2"
+                      : "object-cover"
+                  }`}
+                />
               </motion.div>
             ))}
           </div>
