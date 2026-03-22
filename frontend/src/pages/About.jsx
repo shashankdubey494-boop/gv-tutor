@@ -43,17 +43,17 @@ export default function About() {
             <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
               Choose the right Goodwill experience through two modern, focused education journeys.
             </h1>
-            <p className="mt-4 max-w-3xl text-lg leading-relaxed text-slate-700">
-              Instead of a simple section, About now works like a product entry page. Each card opens into its own detail page with richer media, stronger storytelling, and room for future videos.
+            <p className="mt-4 max-w-3xl text-lg leading-relaxed text-rose-700">
+              We provide the best home tutor service for students along with dedicated coaching support, combining personal attention, concept clarity, and regular progress tracking so every learner can build confidence and achieve better academic results.
             </p>
           </div>
         </section>
 
         <section className="grid gap-4 sm:grid-cols-3">
           {[
-              { label: "Experiences", value: "2 premium education paths" },
-              { label: "Structure", value: "Clickable detail pages" },
-              { label: "Ready for", value: "Images, video, and content growth" }
+              { label: "Experiences", value: "1:1 home tutoring and focused coaching batches" },
+              { label: "Structure", value: "Verified tutors, planned lessons, and weekly reviews" },
+              { label: "Ready for", value: "School exams, board prep, and competitive foundations" }
           ].map((item, index) => (
             <motion.div
               key={item.label}
@@ -159,19 +159,38 @@ export default function About() {
             <div className="grid w-full max-w-3xl items-center gap-8">
             <div className="flex flex-col items-center text-center">
               <div className="relative">
-                <div className="absolute inset-0 scale-110 rounded-full bg-gradient-to-br from-rose-300 via-pink-200 to-sky-200 blur-2xl opacity-60" />
-                <div className="relative h-56 w-56 overflow-hidden rounded-full border-[8px] border-white/90 shadow-[0_20px_60px_rgba(244,114,182,0.22)]">
+                <div className="absolute inset-0 scale-125 rounded-full bg-gradient-to-br from-fuchsia-300 via-amber-200 to-cyan-300 blur-3xl opacity-85" />
+                <motion.div
+                  animate={{
+                    boxShadow: [
+                      "0 24px 80px rgba(236,72,153,0.42), 0 0 0 2px rgba(255,255,255,0.32), 0 0 44px rgba(34,211,238,0.25)",
+                      "0 32px 105px rgba(245,158,11,0.45), 0 0 0 3px rgba(255,255,255,0.45), 0 0 58px rgba(236,72,153,0.34)",
+                      "0 24px 80px rgba(59,130,246,0.38), 0 0 0 2px rgba(255,255,255,0.32), 0 0 48px rgba(245,158,11,0.28)"
+                    ]
+                  }}
+                  transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                  className="relative h-56 w-56 overflow-hidden rounded-full border-[8px] border-white/90"
+                >
                   <img
                     src={founderImage}
                     alt="Amit Sahu, Founder of Goodwill Education"
                     className="h-full w-full object-cover object-[center_28%]"
                   />
-                </div>
+                </motion.div>
               </div>
 
               <div className="mt-6">
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-500">Meet Our Founder</p>
-                <h2 className="mt-3 text-3xl font-bold text-slate-900">Amit Sahu</h2>
+                <motion.h2
+                  animate={{ opacity: [0.75, 1, 0.82, 1] }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ backgroundPosition: "0% 50%" }}
+                  whileInView={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                  viewport={{ once: false }}
+                  className="mt-3 bg-gradient-to-r from-fuchsia-600 via-cyan-600 via-45% to-amber-500 bg-[length:240%_100%] bg-clip-text text-3xl font-extrabold text-transparent"
+                >
+                  Amit Sahu
+                </motion.h2>
                 <p className="mt-2 text-lg font-medium text-rose-600">Founder - Goodwill Education</p>
               </div>
             </div>

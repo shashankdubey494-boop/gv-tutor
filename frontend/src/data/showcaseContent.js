@@ -1,4 +1,8 @@
 import quietZonesImg from "../assets/quiet zones.jpeg";
+import goodwillCoachingImg from "../assets/goodwillcoaching.jpeg";
+import goodwillCoachingThreeImg from "../assets/goodwiilcoachig3.jpeg";
+import goodwillCoachingFourImg from "../assets/goodwillcoaching4.jpeg";
+import goodwillCoachingVideo from "../assets/goodwillcoachingvideo.mp4";
 import collaborativeTablesImg from "../assets/photogood.jpeg";
 import photoGoodOne from "../assets/photogood1.jpeg";
 import photoGoodTwo from "../assets/photogood2.jpeg";
@@ -6,6 +10,9 @@ import photoGoodThree from "../assets/photogood3.jpeg";
 import premiumGroupImg from "../assets/WhatsApp Image 2026-02-12 at 4.41.12 PM.jpeg";
 import individualPodsImg from "../assets/individual pods.jpeg";
 import individualImg from "../assets/individual.jpeg";
+import individualPodsNewImg from "../assets/individual-pods-new.jpeg";
+import individualTwoImg from "../assets/individual2.jpeg";
+import homeTutorVideo from "../assets/libraryfirstvideo1.mp4";
 
 export const aboutShowcases = [
   {
@@ -15,7 +22,8 @@ export const aboutShowcases = [
     title: "Home tutoring with a premium, one-to-one support experience.",
     subtitle:
       "A dedicated page for parents and students to understand how Goodwill Home Tutor works, what kind of support it provides, and why it fits focused academic improvement.",
-    image: collaborativeTablesImg,
+    image: individualPodsNewImg,
+    imageDesktop: individualTwoImg,
     accent: "from-cyan-400 via-blue-500 to-violet-500",
     summary:
       "Designed for students who learn best with personal attention, flexible timing, and a tutor matched to their academic needs.",
@@ -47,11 +55,12 @@ export const aboutShowcases = [
           "This detail view can also highlight convenience, safety, communication, and the confidence that comes from a more direct, personalized academic relationship."
       }
     ],
-    gallery: [collaborativeTablesImg, photoGoodOne, photoGoodTwo],
-    videoTitle: "Tutor introduction or class walkthrough",
+    gallery: [individualPodsNewImg, individualImg, individualTwoImg],
+    videoTitle: "How Goodwill Home Tutor Supports Daily Learning",
     videoDescription:
-      "Use this section for a short introduction video, a sample teaching clip, or a family-focused explainer about how Goodwill Home Tutor works.",
+      "This video shows our real home tutoring approach: tutor-student matching, concept-focused teaching, chapter-wise planning, regular revision, and parent updates that help students improve consistently.",
     videoUrl: "",
+    videoFile: homeTutorVideo,
     featureCards: [
       {
         title: "Personal Fit",
@@ -74,7 +83,7 @@ export const aboutShowcases = [
     title: "A more disciplined coaching setup for students who grow with routine and momentum.",
     subtitle:
       "This page gives Goodwill Coaching its own identity, so students can immediately understand the classroom-style structure, revision rhythm, and guided preparation benefits.",
-    image: quietZonesImg,
+    image: goodwillCoachingImg,
     accent: "from-fuchsia-400 via-violet-500 to-cyan-500",
     summary:
       "Built for learners who benefit from a stronger system, a more scheduled academic flow, and a coaching environment with repeat practice.",
@@ -96,21 +105,22 @@ export const aboutShowcases = [
           "Goodwill Coaching is a better fit when a student needs a more structured learning pattern, stronger weekly discipline, and the motivational benefit of a formal guided setup."
       },
       {
-        heading: "How the page can convert better",
+        heading: "How our coaching system works",
         content:
-          "By giving coaching its own card and dedicated page, you help users self-select faster. Students who want system-driven preparation will understand immediately that this is a different value proposition."
+          "Students follow a fixed weekly schedule with chapter-wise targets, daily practice questions, and regular doubt-solving sessions. Faculty track progress through revision checkpoints so learning stays consistent and exam-ready."
       },
       {
-        heading: "Content you can grow later",
+        heading: "What students and parents can expect",
         content:
-          "This layout is ready for detailed batch descriptions, subject-wise coaching sections, future testimonials, and a short coaching video when you want to expand it."
+          "Parents receive clear updates on attendance, syllabus completion, and test performance. Students get disciplined preparation, guided practice, and a supportive classroom environment that builds confidence before school and board exams."
       }
     ],
-    gallery: [quietZonesImg, premiumGroupImg, photoGoodThree],
+    gallery: [goodwillCoachingImg, goodwillCoachingThreeImg, goodwillCoachingFourImg],
     videoTitle: "Coaching environment highlight",
     videoDescription:
       "This section can showcase a coaching session, a student experience clip, or a short overview of the classroom process and daily structure.",
     videoUrl: "",
+    videoFile: goodwillCoachingVideo,
     featureCards: [
       {
         title: "Clear Routine",
