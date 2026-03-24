@@ -19,7 +19,7 @@ const isStrongPassword = (password) => {
 /* ---------------- SIGNUP ---------------- */
 export const signup = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -58,16 +58,12 @@ export const signup = async (req, res) => {
 
     const passwordHash = await bcrypt.hash(password, 12);
 
-    // Validate role if provided - default to "user" if not provided or invalid
-    const validRoles = ["user", "tutor", "admin"];
-    const userRole = (role && validRoles.includes(role.toLowerCase())) ? role.toLowerCase() : "user";
-
     // Create user
     const newUser = await User.create({
       email: normalizedEmail,
       passwordHash,
       authProviders: ["local"],
-      role: userRole,
+      role: "user",
     });
 
     // Create basic UserProfile for the user
@@ -117,20 +113,48 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ email: normalizedEmail });
 
-    if (!user || !user.passwordHash) {
+    if (user?.accountLockedUntil && user.accountLockedUntil > new Date()) {
+      const minutesRemaining = Math.ceil((user.accountLockedUntil - new Date()) / (1000 * 60));
+      return res.status(423).json({
+        success: false,
+        message: `Account temporarily locked. Try again in ${minutesRemaining} minute(s).`,
+      });
+    }
+
+    if (user?.accountLockedUntil && user.accountLockedUntil <= new Date()) {
+      user.failedLoginAttempts = 0;
+      user.accountLockedUntil = null;
+      await user.save();
+    }
+
+    // Keep response timing more consistent for missing users.
+    const dummyHash = "$2b$10$/yt8aEwR..gIZK4k1Nb.tOfvbZHuSqdK661vP4jNyzNSjfiT4MWq2";
+    const passwordHashToCheck = user?.passwordHash || dummyHash;
+    const isMatch = await bcrypt.compare(password, passwordHashToCheck);
+
+    if (!user || !user.passwordHash || !isMatch) {
+      if (user) {
+        user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
+        if (user.failedLoginAttempts >= 5) {
+          user.accountLockedUntil = new Date(Date.now() + 30 * 60 * 1000);
+          await user.save();
+          return res.status(423).json({
+            success: false,
+            message: "Account temporarily locked due to repeated failed attempts. Try again in 30 minutes.",
+          });
+        }
+        await user.save();
+      }
       return res.status(401).json({
         success: false,
         message: "Invalid credentials",
       });
     }
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
-
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials",
-      });
+    if (user.failedLoginAttempts || user.accountLockedUntil) {
+      user.failedLoginAttempts = 0;
+      user.accountLockedUntil = null;
+      await user.save();
     }
 
     const token = jwt.sign(

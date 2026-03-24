@@ -2,6 +2,7 @@ import express from "express";
 import { signup, login } from "../controllers/authController.js";
 import { rateLimiter } from "../middleware/rateLimiter.js";
 import { protect } from "../middleware/authMiddleware.js";
+import { csrfTokenGuard, issueCsrfToken } from "../middleware/csrfTokenGuard.js";
 import User from "../models/User.js";
 
 const router = express.Router();
@@ -11,6 +12,14 @@ const authRateLimit = rateLimiter(30, 15 * 60 * 1000);
 
 router.post("/signup", authRateLimit, signup);
 router.post("/login", authRateLimit, login);
+
+router.get("/csrf-token", (req, res) => {
+  const token = issueCsrfToken(res);
+  return res.status(200).json({
+    success: true,
+    csrfToken: token,
+  });
+});
 
 // Verify authentication endpoint
 router.get("/verify", protect, async (req, res) => {
@@ -42,7 +51,7 @@ router.get("/verify", protect, async (req, res) => {
 });
 
 // Logout endpoint
-router.post("/logout", (req, res) => {
+router.post("/logout", csrfTokenGuard, (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
     sameSite: "lax",

@@ -5,6 +5,8 @@ import {
   updateMessageStatus,
   deleteContactMessage,
 } from "../controllers/contactController.js";
+import { protect } from "../middleware/authMiddleware.js";
+import { requireAdmin } from "../middleware/requireAdmin.js";
 
 const router = express.Router();
 
@@ -12,8 +14,8 @@ const router = express.Router();
 router.post("/submit", createContactMessage);
 
 // Admin routes - manage messages
-router.get("/all", getAllContactMessages);
-router.patch("/:messageId/status", updateMessageStatus);
-router.delete("/:messageId", deleteContactMessage);
+router.get("/all", protect, requireAdmin, getAllContactMessages);
+router.patch("/:messageId/status", protect, requireAdmin, updateMessageStatus);
+router.delete("/:messageId", protect, requireAdmin, deleteContactMessage);
 
 export default router;
