@@ -1,0 +1,15 @@
+# Environment files
+.env
+.env.*
+*.env
+
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Build/dependency artifacts
+node_modules/
+dist/
+build/
