@@ -177,21 +177,6 @@ export const createOrUpdateTutorProfile = async (req, res) => {
 
     const existing = await TutorProfile.findOne({ userId });
 
-    const docMarkedComplete = existing?.isProfileComplete === true;
-    const established = tutorEstablishedOnAccount(user, existing);
-
-    const needsFirstTimeResume =
-      !existing || (!docMarkedComplete && !established);
-
-    const hadResume = Boolean(existing?.resumeStoredFileName);
-
-    if (needsFirstTimeResume && !hadResume && !req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "Please upload your resume (PDF, DOC, or DOCX).",
-      });
-    }
-
     let resumeStoredFileName = existing?.resumeStoredFileName || "";
     let resumeOriginalName = existing?.resumeOriginalName || "";
     let resumeMimeType = existing?.resumeMimeType || "";

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { createOrUpdateTutorProfile, getTutorProfile } from "../services/tutorService";
+import { saveTutorProfileWithOptionalResume, getTutorProfile } from "../services/tutorService";
 import { verifyAuth } from "../services/authService";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { setRedirecting, isRedirecting, shouldRedirect, clearRedirecting } from "../utils/redirectGuard";
@@ -255,29 +255,31 @@ export default function CompleteProfile() {
       return;
     }
 
-    if (!resumeFile && !hasResumeOnServer) {
-      setError("Please upload your resume (PDF, DOC, or DOCX, max 5MB).");
-      setLoading(false);
-      return;
-    }
-
     try {
-      await createOrUpdateTutorProfile(
-        {
-          ...formData,
-          experience: parseInt(formData.experience, 10),
-          hourlyRate: parseFloat(formData.hourlyRate),
-        },
-        resumeFile || undefined
-      );
-      
+      const { profileResponse, resumeUploaded, resumeError } =
+        await saveTutorProfileWithOptionalResume(
+          {
+            ...formData,
+            experience: parseInt(formData.experience, 10),
+            hourlyRate: parseFloat(formData.hourlyRate),
+          },
+          resumeFile || null
+        );
+
+      if (!profileResponse?.success) {
+        setError(profileResponse?.message || "Could not save profile");
+        setLoading(false);
+        return;
+      }
+
+      if (resumeFile && !resumeUploaded && resumeError) {
+        console.warn("Resume upload skipped (profile still saved):", resumeError);
+      }
+
       console.log("✅ Tutor profile created successfully! Redirecting to apply-tutor page...");
-      
-      // Profile completed successfully - user role is now "tutor"
-      // Use window.location.href to force full page reload and ensure updated role is recognized
+
       setLoading(false);
-      
-      // Small delay to show success, then redirect
+
       setTimeout(() => {
         window.location.href = "/apply-tutor";
       }, 500);
@@ -551,9 +553,9 @@ export default function CompleteProfile() {
 
             {/* Resume */}
             <div className="border-b border-cyan-500/30 pb-4">
-              <h3 className="text-xl font-semibold mb-4">Resume {!hasResumeOnServer ? <span className="text-red-400">*</span> : null}</h3>
+              <h3 className="text-xl font-semibold mb-4">Resume (optional)</h3>
               <p className="text-white/70 text-sm mb-3">
-                Upload PDF, DOC, or DOCX (max 5 MB). New tutors must include a resume to finish their profile.
+                You may upload PDF, DOC, or DOCX (max 5 MB). Add or update it anytime from Edit profile.
               </p>
               {hasResumeOnServer && existingResumeName && !resumeFile && (
                 <p className="text-cyan-300/90 text-sm mb-3">

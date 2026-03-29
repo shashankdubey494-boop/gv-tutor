@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { createOrUpdateTutorProfile, getTutorProfile } from "../services/tutorService";
+import { saveTutorProfileWithOptionalResume, getTutorProfile } from "../services/tutorService";
 import { verifyAuth, logoutUser } from "../services/authService";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { X } from "lucide-react";
@@ -126,24 +126,30 @@ export default function EditTutorProfile() {
         return;
       }
 
-      const response = await createOrUpdateTutorProfile({
-        fullName: formData.fullName,
-        phone: formData.phone,
-        gender: formData.gender.toLowerCase(),
-        address: formData.address,
-        experience: parseInt(formData.experience),
-        subjects: formData.subjects,
-        classes: formData.classes.map((c) => parseInt(c)),
-        availableLocations: formData.availableLocations,
-        preferredTiming: formData.preferredTiming,
-        hourlyRate: parseFloat(formData.hourlyRate),
-        bio: formData.bio,
-        achievements: formData.achievements,
-      });
+      const { profileResponse: response, resumeUploaded, resumeError } =
+        await saveTutorProfileWithOptionalResume(
+          {
+            fullName: formData.fullName,
+            phone: formData.phone,
+            gender: formData.gender.toLowerCase(),
+            address: formData.address,
+            experience: parseInt(formData.experience, 10),
+            subjects: formData.subjects,
+            classes: formData.classes.map((c) => parseInt(c, 10)),
+            availableLocations: formData.availableLocations,
+            preferredTiming: formData.preferredTiming,
+            hourlyRate: parseFloat(formData.hourlyRate),
+            bio: formData.bio,
+            achievements: formData.achievements,
+          },
+          resumeFile || null
+        );
 
       if (response.success) {
+        if (resumeFile && !resumeUploaded && resumeError) {
+          console.warn("Resume upload skipped (profile still saved):", resumeError);
+        }
         setSuccess(true);
-        // Redirect after 1 second to show the success state briefly
         setTimeout(() => {
           navigate("/profile");
         }, 1000);
