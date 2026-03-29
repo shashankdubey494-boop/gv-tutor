@@ -164,6 +164,84 @@ export const createOrUpdateTutorProfile = async (req, res) => {
   }
 };
 
+const isProfileCompleteForResume = (profile) => {
+  if (!profile) return false;
+  const requiredValues = [
+    profile.fullName,
+    profile.phone,
+    profile.gender,
+    profile.address,
+    profile.experience,
+    profile.preferredTiming,
+    profile.hourlyRate,
+  ];
+  const hasArrays =
+    Array.isArray(profile.subjects) &&
+    profile.subjects.length > 0 &&
+    Array.isArray(profile.classes) &&
+    profile.classes.length > 0 &&
+    Array.isArray(profile.availableLocations) &&
+    profile.availableLocations.length > 0;
+  const hasBasic = requiredValues.every((value) => value !== undefined && value !== null && value !== "");
+  return hasBasic && hasArrays && Boolean(profile.resumeUrl);
+};
+
+/* ---------------- UPLOAD RESUME ONLY ---------------- */
+export const uploadTutorResume = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (user.role === "admin") {
+      return res.status(403).json({ success: false, message: "Admins cannot apply as tutors" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Resume file is required",
+      });
+    }
+
+    const profile = await TutorProfile.findOne({ userId });
+    if (!profile) {
+      return res.status(404).json({
+        success: false,
+        message: "Profile not found. Please complete your profile first.",
+      });
+    }
+
+    profile.resumeUrl = `/uploads/resumes/${req.file.filename}`;
+    profile.resumeOriginalName = req.file.originalname;
+    profile.resumeUploadedAt = new Date();
+
+    profile.isProfileComplete = isProfileCompleteForResume(profile);
+    await profile.save();
+
+    await User.findByIdAndUpdate(userId, {
+      isTutorProfileComplete: profile.isProfileComplete,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: profile.isProfileComplete
+        ? "Resume uploaded. Profile is now complete."
+        : "Resume uploaded. Complete remaining fields to finish your profile.",
+      profile,
+    });
+  } catch (error) {
+    console.error("Upload resume error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
 /* ---------------- GET TUTOR PROFILE ---------------- */
 export const getTutorProfile = async (req, res) => {
   try {
@@ -175,6 +253,15 @@ export const getTutorProfile = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "Profile not found",
+      });
+    }
+
+    const shouldBeComplete = isProfileCompleteForResume(profile);
+    if (profile.isProfileComplete !== shouldBeComplete) {
+      profile.isProfileComplete = shouldBeComplete;
+      await profile.save();
+      await User.findByIdAndUpdate(userId, {
+        isTutorProfileComplete: shouldBeComplete,
       });
     }
 

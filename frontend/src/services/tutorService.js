@@ -31,6 +31,16 @@ export function createOrUpdateTutorProfile(formData) {
 }
 
 /**
+ * UPLOAD TUTOR RESUME ONLY
+ */
+export function uploadTutorResume(formData) {
+  return apiRequest("/api/tutor-profile/resume", {
+    method: "POST",
+    body: formData,
+  });
+}
+
+/**
  * GET TUTOR PROFILE
  */
 export function getTutorProfile() {

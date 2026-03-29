@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { verifyAuth, logoutUser } from "../services/authService";
-import { apiRequest } from "../services/api";
+import { apiRequest, BACKEND_BASE_URL } from "../services/api";
 import { getContactMessages, updateMessageStatus, deleteContactMessage } from "../services/contactService";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useToast } from "../components/Toast";
@@ -1758,6 +1758,23 @@ export default function AdminDashboard() {
                     <p className="text-gray-700 leading-relaxed">{selectedTutorProfile.profile.achievements}</p>
                   </div>
                 )}
+
+                {/* Resume */}
+                <div>
+                  <h4 className="text-xl font-semibold text-gray-800 mb-3">Resume</h4>
+                  {selectedTutorProfile.profile.resumeUrl ? (
+                    <a
+                      href={`${BACKEND_BASE_URL}${selectedTutorProfile.profile.resumeUrl}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-cyan-600 underline"
+                    >
+                      View uploaded resume
+                    </a>
+                  ) : (
+                    <p className="text-yellow-600">Resume not uploaded yet</p>
+                  )}
+                </div>
 
                 {/* Applied Posts */}
                 {selectedTutorProfile.appliedPosts && selectedTutorProfile.appliedPosts.length > 0 && (

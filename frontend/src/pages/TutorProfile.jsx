@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyAuth, logoutUser } from "../services/authService";
-import { getTutorProfile } from "../services/tutorService";
+import { getTutorProfile, uploadTutorResume } from "../services/tutorService";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { BACKEND_BASE_URL } from "../services/api";
 
@@ -11,6 +11,8 @@ export default function TutorProfile() {
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
+  const [resumeFile, setResumeFile] = useState(null);
+  const [resumeMessage, setResumeMessage] = useState("");
 
   useEffect(() => {
     async function loadProfile() {
@@ -256,6 +258,44 @@ export default function TutorProfile() {
               </a>
             ) : (
               <p className="text-yellow-300">Resume not uploaded yet</p>
+            )}
+            {!profile?.resumeUrl && (
+              <div className="mt-3 space-y-3">
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
+                  className="w-full rounded-lg bg-gray-800 text-white border border-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 p-3"
+                />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    if (!resumeFile) {
+                      setResumeMessage("Please choose a resume file first.");
+                      return;
+                    }
+                    try {
+                      setResumeMessage("");
+                      const formData = new FormData();
+                      formData.append("resume", resumeFile);
+                      const response = await uploadTutorResume(formData);
+                      if (response?.profile) {
+                        setProfile(response.profile);
+                      }
+                      setResumeFile(null);
+                      setResumeMessage("Resume uploaded successfully.");
+                    } catch (err) {
+                      setResumeMessage(err.message || "Resume upload failed.");
+                    }
+                  }}
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-600 hover:to-green-600 rounded-lg font-semibold text-white"
+                >
+                  Upload Resume
+                </button>
+                {resumeMessage && (
+                  <p className="text-sm text-white/80">{resumeMessage}</p>
+                )}
+              </div>
             )}
           </div>
 
