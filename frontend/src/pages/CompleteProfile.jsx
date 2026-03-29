@@ -10,8 +10,6 @@ export default function CompleteProfile() {
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
-  const [resumeFile, setResumeFile] = useState(null);
-  const [resumeUrl, setResumeUrl] = useState("");
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -132,7 +130,6 @@ export default function CompleteProfile() {
               bio: profile.bio || "",
               achievements: profile.achievements || "",
             });
-            setResumeUrl(profile.resumeUrl || "");
           }
         } catch (err) {
           // Profile doesn't exist yet, that's fine
@@ -175,11 +172,6 @@ export default function CompleteProfile() {
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  }
-
-  function handleResumeChange(e) {
-    const file = e.target.files?.[0] || null;
-    setResumeFile(file);
   }
 
   function handleAddSubject() {
@@ -257,37 +249,11 @@ export default function CompleteProfile() {
     }
 
     try {
-      if (!resumeUrl && !resumeFile) {
-        setError("Please upload your resume (PDF or Word document)");
-        setLoading(false);
-        return;
-      }
-
-      const payload = new FormData();
-      payload.append("fullName", formData.fullName);
-      payload.append("phone", formData.phone);
-      payload.append("gender", formData.gender);
-      payload.append("address", formData.address);
-      payload.append("experience", String(formData.experience));
-      payload.append("subjects", JSON.stringify(formData.subjects));
-      payload.append("classes", JSON.stringify(formData.classes));
-      payload.append("availableLocations", JSON.stringify(formData.availableLocations));
-      payload.append("preferredTiming", formData.preferredTiming);
-      payload.append("hourlyRate", String(formData.hourlyRate));
-      payload.append("bio", formData.bio || "");
-      payload.append("achievements", formData.achievements || "");
-
-      if (resumeFile) {
-        payload.append("resume", resumeFile);
-      }
-
-      const response = await createOrUpdateTutorProfile(payload);
-
-      if (!response?.profile?.isProfileComplete) {
-        setError("Profile saved, but resume is required to complete your profile.");
-        setLoading(false);
-        return;
-      }
+      await createOrUpdateTutorProfile({
+        ...formData,
+        experience: parseInt(formData.experience),
+        hourlyRate: parseFloat(formData.hourlyRate),
+      });
       
       console.log("✅ Tutor profile created successfully! Redirecting to apply-tutor page...");
       
@@ -565,25 +531,6 @@ export default function CompleteProfile() {
                 rows="3"
                   className="w-full px-4 py-3 rounded-lg bg-gray-800 text-white border border-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
               />
-            </div>
-
-            {/* Resume Upload */}
-            <div className="border-t border-cyan-500/30 pt-4">
-              <h3 className="text-xl font-semibold mb-4">Resume Upload</h3>
-              {resumeUrl && (
-                <p className="text-sm text-green-300 mb-3">
-                  Resume already uploaded. You can upload a new file to replace it.
-                </p>
-              )}
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx"
-                onChange={handleResumeChange}
-                className="w-full rounded-lg bg-gray-800 text-white border border-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 p-3"
-              />
-              <p className="text-xs text-white/70 mt-2">
-                Accepted formats: PDF, DOC, DOCX (max 5MB).
-              </p>
             </div>
 
             <button

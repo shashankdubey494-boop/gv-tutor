@@ -1,8 +1,6 @@
 import "./config/env.js";   // 🔥 MUST be FIRST import
 
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -105,10 +103,6 @@ app.use((req, res, next) => {
 app.use(csrfOriginGuard(allowedOrigins));
 app.use(csrfTokenGuard);
 app.use(passport.initialize());
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
 app.get("/", (req, res) => {
   res.send("Server is running 24/7!");

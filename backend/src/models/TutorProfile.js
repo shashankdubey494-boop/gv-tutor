@@ -77,22 +77,6 @@ const tutorProfileSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
-
-    // Resume
-    resumeUrl: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-    resumeOriginalName: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-    resumeUploadedAt: {
-      type: Date,
-      default: null,
-    },
     
     // Profile Status
     isProfileComplete: {

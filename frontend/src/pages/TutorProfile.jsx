@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { verifyAuth, logoutUser } from "../services/authService";
 import { getTutorProfile } from "../services/tutorService";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { BACKEND_BASE_URL } from "../services/api";
 
 export default function TutorProfile() {
   const navigate = useNavigate();
@@ -98,14 +97,8 @@ export default function TutorProfile() {
             
             {/* Status Badge */}
             <div className="flex gap-3 mt-2">
-              <span
-                className={`px-5 py-2 border-2 rounded-full text-sm font-semibold shadow-lg ${
-                  profile?.isProfileComplete
-                    ? "bg-green-500/20 text-green-300 border-green-500/40 shadow-green-500/20"
-                    : "bg-yellow-500/20 text-yellow-300 border-yellow-500/40 shadow-yellow-500/20"
-                }`}
-              >
-                {profile?.isProfileComplete ? "✓ Profile Complete" : "Profile Incomplete"}
+              <span className="px-5 py-2 bg-green-500/20 text-green-300 border-2 border-green-500/40 rounded-full text-sm font-semibold shadow-lg shadow-green-500/20">
+                ✓ Profile Complete
               </span>
               {profile?.isVerified && (
                 <span className="px-5 py-2 bg-blue-500/20 text-blue-300 border-2 border-blue-500/40 rounded-full text-sm font-semibold shadow-lg shadow-blue-500/20">
@@ -241,23 +234,6 @@ export default function TutorProfile() {
               <p className="text-white/90 leading-relaxed">{profile.achievements}</p>
             </div>
           )}
-
-          {/* Resume */}
-          <div className="mt-6">
-            <p className="text-white/70 text-sm mb-2">Resume</p>
-            {profile?.resumeUrl ? (
-              <a
-                href={`${BACKEND_BASE_URL}${profile.resumeUrl}`}
-                target="_blank"
-                rel="noreferrer"
-                className="text-cyan-300 underline"
-              >
-                View uploaded resume
-              </a>
-            ) : (
-              <p className="text-yellow-300">Resume not uploaded yet</p>
-            )}
-          </div>
 
           {/* Action Buttons */}
           <div className="mt-8 pt-6 border-t border-cyan-500/30 flex gap-4 flex-wrap">

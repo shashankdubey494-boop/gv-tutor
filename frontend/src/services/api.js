@@ -93,9 +93,8 @@ export async function apiRequest(endpoint, options = {}) {
 
   try {
     // FIX FOR BRAVE/PRIVACY BROWSERS: Use stored token if available (for third-party cookie blocking)
-    const isFormData = typeof FormData !== "undefined" && options.body instanceof FormData;
     const baseHeaders = {
-      ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      "Content-Type": "application/json",
       ...options.headers,
     };
 
