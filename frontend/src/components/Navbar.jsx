@@ -106,10 +106,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 border-b transition-all duration-300 ${
+      className={`fixed top-0 left-0 z-50 w-full border-b transition-all duration-300 ${
         isScrolled
-          ? "bg-slate-950/35 backdrop-blur-xl border-white/10"
-          : "bg-slate-900/90 backdrop-blur-md border-slate-700/40"
+          ? "border-white/10 bg-slate-800/55 backdrop-blur-xl [background-image:radial-gradient(ellipse_120%_80%_at_50%_-20%,rgba(96,165,250,0.14),transparent_55%),radial-gradient(ellipse_90%_50%_at_100%_50%,rgba(167,139,250,0.06),transparent_45%)]"
+          : "border-transparent bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 sm:h-24 flex items-center relative">
@@ -379,7 +379,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Panel */}
       {menuOpen && (
-        <div className="lg:hidden bg-gradient-to-b from-slate-900/95 to-black/95 backdrop-blur-3xl text-white p-5 space-y-3 border-t border-white/10 animate-in fade-in slide-in-from-top-2 duration-300 shadow-2xl h-[calc(100vh-80px)] sm:h-[calc(100vh-96px)] overflow-y-auto">
+        <div className="lg:hidden bg-gradient-to-b from-slate-800/98 to-slate-900/95 backdrop-blur-3xl text-white p-5 space-y-3 border-t border-white/10 animate-in fade-in slide-in-from-top-2 duration-300 shadow-2xl h-[calc(100vh-80px)] sm:h-[calc(100vh-96px)] overflow-y-auto">
           <Link
             to="/"
             onClick={() => setMenuOpen(false)}
