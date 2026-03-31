@@ -144,7 +144,7 @@ app.get("/health/email", async (req, res) => {
     let redisOk = false;
     let queueStats = null;
 
-    if (redisConfigured) {
+    if (redisConfigured && emailQueue.isEnabled !== false) {
       try {
         await emailQueue.client.ping();
         redisOk = true;

@@ -73,14 +73,6 @@ if (redisConfigured) {
       if (!queue.isEnabled) return;
       queue.isEnabled = false;
       queue.disabledReason = reason;
-      queue.client = noopClient;
-      queue.add = async () => {
-        throw new Error(reason);
-      };
-      queue.getWaitingCount = async () => 0;
-      queue.getActiveCount = async () => 0;
-      queue.getFailedCount = async () => 0;
-      queue.getDelayedCount = async () => 0;
 
       try {
         await queue.close();

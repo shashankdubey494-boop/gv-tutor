@@ -30,7 +30,7 @@ class NotificationService {
 
             const redisConfigured = Boolean(process.env.REDIS_HOST && process.env.REDIS_PORT);
             let queueHealthy = false;
-            if (redisConfigured) {
+            if (redisConfigured && emailQueue.isEnabled !== false) {
                 try {
                     await emailQueue.client.ping();
                     queueHealthy = true;
