@@ -13,7 +13,7 @@ export default function AboutDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdf6_0%,#effaf6_40%,#fff4fb_100%)] pt-28 text-slate-900">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdf6_0%,#effaf6_40%,#fff4fb_100%)] pt-28 md:pt-20 lg:pt-28 text-slate-900">
       <div className="pointer-events-none absolute inset-x-0 top-24 overflow-hidden">
         <motion.div
           animate={{ x: [0, 28, 0], y: [0, -22, 0] }}
@@ -27,7 +27,7 @@ export default function AboutDetail() {
         />
       </div>
 
-      <div className="mx-auto max-w-7xl space-y-10 px-4 pb-20">
+      <div className="mx-auto max-w-7xl space-y-10 px-4 pb-20 md:space-y-8 md:pb-14 lg:space-y-10 lg:pb-20">
         <section className="relative overflow-hidden rounded-[2.2rem] border border-amber-200/80 bg-gradient-to-br from-[#fff9ef] via-[#fff8d6] to-[#ffeef6] shadow-[0_38px_110px_rgba(251,191,36,0.22),0_16px_40px_rgba(236,72,153,0.12)] backdrop-blur-sm">
           <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="relative min-h-[400px] overflow-hidden">

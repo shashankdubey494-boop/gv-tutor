@@ -39,7 +39,7 @@ export default function About() {
   };
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#fffef8_0%,#f7fdff_28%,#fff4f8_64%,#fff9f1_100%)] pt-28 text-slate-900">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#fffef8_0%,#f7fdff_28%,#fff4f8_64%,#fff9f1_100%)] pt-28 md:pt-20 lg:pt-28 text-slate-900">
       <div className="pointer-events-none absolute inset-x-0 top-24 overflow-hidden">
         <motion.div
           animate={{ x: [0, 32, 0], y: [0, -18, 0] }}
@@ -58,7 +58,7 @@ export default function About() {
         />
       </div>
 
-      <div className="mx-auto max-w-7xl space-y-10 px-4 pb-20">
+      <div className="mx-auto max-w-7xl space-y-10 px-4 pb-20 md:space-y-8 md:pb-14 lg:space-y-10 lg:pb-20">
         <section className="relative overflow-hidden rounded-[2rem] border border-amber-200/90 bg-gradient-to-br from-[#fff6fb] via-[#fff5c9] to-[#ffe9bf] px-6 py-12 shadow-[0_40px_95px_rgba(251,191,36,0.28),0_14px_35px_rgba(244,114,182,0.14)] sm:px-10 sm:py-14">
           <div className="absolute inset-y-0 right-0 w-1/3 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.6),transparent_70%)]" />
           <div className="relative z-10 max-w-4xl">

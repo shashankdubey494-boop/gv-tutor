@@ -249,7 +249,7 @@ const Hero = () => {
       `}</style>
 
       {/* Classic centered hero */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 pt-24 sm:px-6 sm:pb-12 sm:pt-28 lg:pt-32">
+      <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 pb-10 pt-24 sm:px-6 sm:pb-12 sm:pt-28 md:min-h-[82vh] md:pb-8 md:pt-20 lg:min-h-screen lg:pb-12 lg:pt-32">
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,#030712_0%,#0b1f63_45%,#76b8ff_82%,#ffffff_100%)]" />
         <div className="pointer-events-none absolute -top-24 left-[8%] h-[420px] w-[420px] rounded-full bg-blue-500/25 blur-[130px]" style={{ animation: "blobFloat1 16s ease-in-out infinite" }} />
         <div className="pointer-events-none absolute top-[30%] -right-[8%] h-[380px] w-[380px] rounded-full bg-indigo-400/25 blur-[120px]" style={{ animation: "blobFloat2 20s ease-in-out infinite" }} />
@@ -366,7 +366,7 @@ const Hero = () => {
       </section>
 
       {/* —— MISSION —— */}
-      <section className="bg-gradient-to-b from-[#9ebce8] via-[#7aa0d8] to-[#5f84c5] py-20 sm:py-24 px-4 sm:px-6">
+      <section className="bg-gradient-to-b from-[#9ebce8] via-[#7aa0d8] to-[#5f84c5] py-20 sm:py-24 md:py-16 lg:py-20 px-4 sm:px-6">
         <div className="mx-auto max-w-7xl">
           <motion.div {...fadeIn} className="mb-14 text-center">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
@@ -449,7 +449,7 @@ const Hero = () => {
       </section>
 
       {/* —— AMENITIES / FEATURES —— */}
-      <section className="bg-gradient-to-b from-[#35598e] via-[#2c4e83] to-[#264679] py-20 sm:py-24 px-4 sm:px-6">
+      <section className="bg-gradient-to-b from-[#35598e] via-[#2c4e83] to-[#264679] py-20 sm:py-24 md:py-16 lg:py-20 px-4 sm:px-6">
         <div className="mx-auto max-w-5xl">
           <motion.div {...fadeIn} className="mb-12 text-center">
             <span className="inline-flex rounded-full border border-cyan-300/45 bg-cyan-100/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-100">
