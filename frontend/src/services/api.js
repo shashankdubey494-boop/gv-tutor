@@ -149,6 +149,11 @@ export async function apiRequest(endpoint, options = {}) {
     }
 
     if (!response.ok) {
+      // Surface clearer downtime errors for gateway/service outages.
+      if ([502, 503, 504].includes(response.status)) {
+        throw new Error("Backend is not connected. Please try again in a minute.");
+      }
+
       // Don't log 401 errors for /auth/verify (expected when not logged in)
       const isAuthVerify = endpoint.includes("/auth/verify");
       const isUnauthorized = response.status === 401;

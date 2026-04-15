@@ -37,6 +37,8 @@ export default function AdminDashboard() {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, messageId: null });
   const [requestDeleteConfirm, setRequestDeleteConfirm] = useState({ isOpen: false, requestId: null });
+  const [isSavingRequest, setIsSavingRequest] = useState(false);
+  const [isPostingRequest, setIsPostingRequest] = useState(false);
   const [logoDataUrl, setLogoDataUrl] = useState("");
   const [posterFields, setPosterFields] = useState({
     classLevel: "",
@@ -450,16 +452,56 @@ export default function AdminDashboard() {
   }
 
   async function handlePostRequest(requestId) {
+    if (!selectedRequest || !editFormData || isSavingRequest || isPostingRequest) return;
+
     try {
+      setIsPostingRequest(true);
+
+      // Save the latest edits first so "Save & Post" truly does both actions.
+      const { subjectInput, ...dataToSend } = editFormData;
+      const saveResult = await apiRequest(`/api/admin/tutor-requests/${requestId}`, {
+        method: "PUT",
+        body: JSON.stringify(dataToSend),
+      });
+
       await apiRequest(`/api/admin/tutor-requests/${requestId}/post`, {
         method: "POST",
       });
+
+      const updatedRequest = {
+        ...(saveResult?.request || selectedRequest),
+        status: "posted",
+      };
+
+      setParentApplications((prev) =>
+        prev.map((req) => (req._id === requestId ? { ...req, ...updatedRequest } : req))
+      );
+      setTutorApplications((prev) =>
+        prev.map((profile) => ({
+          ...profile,
+          appliedPosts: (profile.appliedPosts || []).map((post) =>
+            post._id === requestId ? { ...post, ...updatedRequest } : post
+          ),
+        }))
+      );
+      setSelectedTutorProfile((prev) =>
+        prev
+          ? {
+              ...prev,
+              appliedPosts: (prev.appliedPosts || []).map((post) =>
+                post._id === requestId ? { ...post, ...updatedRequest } : post
+              ),
+            }
+          : prev
+      );
+
       success('Request posted successfully! It is now visible to tutors.');
       setSelectedRequest(null);
       setEditFormData(null);
-      loadData();
     } catch (err) {
       error('Failed to post request: ' + err.message);
+    } finally {
+      setIsPostingRequest(false);
     }
   }
 
@@ -510,18 +552,47 @@ export default function AdminDashboard() {
   }
 
   async function handleSaveRequest() {
+    if (!selectedRequest || !editFormData || isSavingRequest || isPostingRequest) return;
+
     try {
+      setIsSavingRequest(true);
       const { subjectInput, ...dataToSend } = editFormData;
-      await apiRequest(`/api/admin/tutor-requests/${selectedRequest._id}`, {
+      const response = await apiRequest(`/api/admin/tutor-requests/${selectedRequest._id}`, {
         method: "PUT",
         body: JSON.stringify(dataToSend),
       });
+
+      const updatedRequest = response?.request || { ...selectedRequest, ...dataToSend };
+
+      setParentApplications((prev) =>
+        prev.map((req) => (req._id === selectedRequest._id ? { ...req, ...updatedRequest } : req))
+      );
+      setTutorApplications((prev) =>
+        prev.map((profile) => ({
+          ...profile,
+          appliedPosts: (profile.appliedPosts || []).map((post) =>
+            post._id === selectedRequest._id ? { ...post, ...updatedRequest } : post
+          ),
+        }))
+      );
+      setSelectedTutorProfile((prev) =>
+        prev
+          ? {
+              ...prev,
+              appliedPosts: (prev.appliedPosts || []).map((post) =>
+                post._id === selectedRequest._id ? { ...post, ...updatedRequest } : post
+              ),
+            }
+          : prev
+      );
+
       success('Request updated successfully!');
       setSelectedRequest(null);
       setEditFormData(null);
-      loadData();
     } catch (err) {
       error('Failed to update request: ' + err.message);
+    } finally {
+      setIsSavingRequest(false);
     }
   }
 
@@ -2176,20 +2247,23 @@ export default function AdminDashboard() {
               <div className="flex gap-4 pt-4 border-t border-cyan-500/30">
                 <button
                   onClick={handleSaveRequest}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-600 hover:to-green-600 rounded-lg font-semibold text-white shadow-lg"
+                  disabled={isSavingRequest || isPostingRequest}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-600 hover:to-green-600 rounded-lg font-semibold text-white shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Save Changes
+                  {isSavingRequest ? "Saving..." : "Save Changes"}
                 </button>
                 {selectedRequest.status === "pending" && (
                   <button
                     onClick={() => handlePostRequest(selectedRequest._id)}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 rounded-lg font-semibold text-white shadow-lg"
+                    disabled={isSavingRequest || isPostingRequest}
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 rounded-lg font-semibold text-white shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Save & Post
+                    {isPostingRequest ? "Posting..." : "Save & Post"}
                   </button>
                 )}
                 <button
                   onClick={() => confirmRequestDelete(selectedRequest._id)}
+                  disabled={isSavingRequest || isPostingRequest}
                   className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold text-white"
                 >
                   Delete Post
@@ -2199,6 +2273,7 @@ export default function AdminDashboard() {
                     setSelectedRequest(null);
                     setEditFormData(null);
                   }}
+                  disabled={isSavingRequest || isPostingRequest}
                   className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold text-white"
                 >
                   Cancel

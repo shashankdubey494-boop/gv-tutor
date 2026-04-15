@@ -1,8 +1,9 @@
-import "./config/env.js";   // 🔥 MUST be FIRST import
+import "./config/env.js";
 
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
 
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -12,13 +13,19 @@ import { csrfTokenGuard } from "./middleware/csrfTokenGuard.js";
 import { httpMethodSafetyGuard } from "./middleware/httpMethodSafetyGuard.js";
 import { securityHeaders } from "./middleware/securityHeaders.js";
 import { rateLimiter } from "./middleware/rateLimiter.js";
+import tutorRequestRoutes from "./routes/tutorRequestRoutes.js";
+import tutorProfileRoutes from "./routes/tutorProfileRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import notificationRoutes from "../routes/notifications.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import unifiedEmailService from "../notifications/services/unifiedEmailService.js";
+import emailQueue from "../notifications/services/notificationQueue.js";
 
 connectDB();
 
 const app = express();
 app.set("trust proxy", 1);
 
-// Security: Request body size limit (prevent DoS)
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
@@ -30,7 +37,6 @@ const expandOriginVariants = (origin) => {
     const url = new URL(trimmed);
     const host = url.hostname.toLowerCase();
 
-    // Local/dev origins should not be transformed.
     if (host === "localhost" || host === "127.0.0.1") {
       return [url.origin];
     }
@@ -67,7 +73,6 @@ app.use(httpMethodSafetyGuard);
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow server-to-server requests and health checks without an Origin header.
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
       return callback(new Error(`CORS blocked for origin: ${origin}`));
@@ -108,35 +113,70 @@ app.get("/", (req, res) => {
   res.send("Server is running 24/7!");
 });
 
-// Mount auth routes at both /auth and /api/auth (for Google OAuth compatibility)
 app.use("/auth", authRoutes);
 app.use("/api/auth", authRoutes);
-
-// Import and mount other routes
-import tutorRequestRoutes from "./routes/tutorRequestRoutes.js";
-import tutorProfileRoutes from "./routes/tutorProfileRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
-import notificationRoutes from "../routes/notifications.js";
-import contactRoutes from "./routes/contactRoutes.js";
-import unifiedEmailService from "../notifications/services/unifiedEmailService.js";
-import emailQueue from "../notifications/services/notificationQueue.js";
-
 app.use("/api/tutor-requests", tutorRequestRoutes);
 app.use("/api/tutor-profile", tutorProfileRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api", notificationRoutes);
 app.use("/api/contact", contactRoutes);
 
-// Health check endpoint (required for Render)
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
+  res.status(200).json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    uptimeSeconds: Math.floor(process.uptime()),
+  });
 });
 
 app.head("/health", (req, res) => {
   res.status(200).end();
 });
 
-// Email/Notification health check (Brevo + Redis/queue)
+app.get("/health/deep", async (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  const dbConnected = dbState === 1;
+  const redisConfigured = Boolean(process.env.REDIS_HOST && process.env.REDIS_PORT);
+  const redisQueueEnabled = emailQueue?.isEnabled !== false;
+
+  if (!dbConnected) {
+    return res.status(503).json({
+      status: "degraded",
+      reason: "db_disconnected",
+      dbConnected: false,
+      redisConfigured,
+      redisQueueEnabled,
+      uptimeSeconds: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  const start = Date.now();
+  try {
+    await mongoose.connection.db.admin().ping();
+  } catch {
+    return res.status(503).json({
+      status: "degraded",
+      reason: "db_ping_failed",
+      dbConnected: false,
+      redisConfigured,
+      redisQueueEnabled,
+      uptimeSeconds: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  return res.status(200).json({
+    status: "ok",
+    dbConnected: true,
+    dbPingMs: Date.now() - start,
+    redisConfigured,
+    redisQueueEnabled,
+    uptimeSeconds: Math.floor(process.uptime()),
+    timestamp: new Date().toISOString(),
+  });
+});
+
 app.get("/health/email", async (req, res) => {
   try {
     const brevoOk = await unifiedEmailService.verifyBrevoConnection();
@@ -154,7 +194,7 @@ app.get("/health/email", async (req, res) => {
           failed: await emailQueue.getFailedCount(),
           delayed: await emailQueue.getDelayedCount(),
         };
-      } catch (err) {
+      } catch {
         redisOk = false;
       }
     }
@@ -178,6 +218,26 @@ app.get("/health/email", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(
+    `[startup] NODE_ENV=${process.env.NODE_ENV || "undefined"} REDIS_QUEUE_ENABLED=${emailQueue?.isEnabled !== false}`
+  );
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("[runtime] Unhandled promise rejection:", reason);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("[runtime] Uncaught exception:", err);
+  setTimeout(() => process.exit(1), 1000);
+});
+
+process.on("SIGTERM", () => {
+  console.log("[shutdown] SIGTERM received, closing HTTP server...");
+  server.close(() => {
+    console.log("[shutdown] HTTP server closed.");
+    process.exit(0);
+  });
 });

@@ -362,27 +362,7 @@ export const updateTutorRequest = async (req, res) => {
 export const postTutorRequest = async (req, res) => {
   try {
     const { requestId } = req.params;
-    
-    // ✅ ADD THIS: Manually extract userId from token
-    let adminId;
-    try {
-      const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
-      if (!token) {
-        return res.status(401).json({
-          success: false,
-          message: "Authentication required"
-        });
-      }
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      adminId = decoded.userId; // This should match what's in your JWT payload
-      console.log('✅ Admin ID extracted:', adminId);
-    } catch (authError) {
-      console.error('Auth error:', authError);
-      return res.status(401).json({
-        success: false,
-        message: "Invalid token"
-      });
-    }
+    const adminId = req.user?.userId;
 
     const request = await TutorRequest.findByIdAndUpdate(
       requestId,
@@ -397,34 +377,40 @@ export const postTutorRequest = async (req, res) => {
       });
     }
 
-    // ✅ Send notifications to all tutors
-    try {
-      await notificationService.notifyAllTutors({
-        type: 'new_job',
-        title: `New Tutor Request: ${request.subjects.join(', ')}`,
-        message: `A new tutoring request for ${request.subjects.join(', ')} in ${request.preferredLocation} has been posted.`,
-        relatedId: request._id,
-        relatedCollection: 'tutorrequests',
-        createdBy: adminId,  // ✅ Use the manually extracted adminId
-        templateData: {
-          jobId: request._id,
-          jobTitle: `Tutor needed for ${request.subjects.join(', ')}`,
-          subject: request.subjects.join(', '),
-          location: request.preferredLocation,
-          budget: request.budget,
-          jobDetails: request.additionalRequirements || `Grade: ${request.studentGrade}, Timing: ${request.preferredTiming}, Frequency: ${request.frequency}`
-        }
-      });
-      console.log('✅ Notifications sent to all tutors for new request');
-    } catch (notifError) {
-      console.error('⚠️ Notification failed (request still posted):', notifError);
-    }
-
-    return res.status(200).json({
+    // Return immediately so admin UI doesn't wait for notification fan-out.
+    res.status(200).json({
       success: true,
       message: "Request posted successfully. It will now be visible to tutors.",
       request,
     });
+
+    // Notify tutors in background after response.
+    setImmediate(async () => {
+      try {
+        await notificationService.notifyAllTutors({
+          type: "new_job",
+          title: `New Tutor Request: ${request.subjects.join(", ")}`,
+          message: `A new tutoring request for ${request.subjects.join(", ")} in ${request.preferredLocation} has been posted.`,
+          relatedId: request._id,
+          relatedCollection: "tutorrequests",
+          createdBy: adminId,
+          templateData: {
+            jobId: request._id,
+            jobTitle: `Tutor needed for ${request.subjects.join(", ")}`,
+            subject: request.subjects.join(", "),
+            location: request.preferredLocation,
+            budget: request.budget,
+            jobDetails:
+              request.additionalRequirements ||
+              `Grade: ${request.studentGrade}, Timing: ${request.preferredTiming}, Frequency: ${request.frequency}`,
+          },
+        });
+      } catch (notifError) {
+        console.error("Notification failed (request already posted):", notifError);
+      }
+    });
+
+    return;
   } catch (error) {
     console.error("Post request error:", error);
     return res.status(500).json({
@@ -503,6 +489,7 @@ export const deleteTutorRequest = async (req, res) => {
     });
   }
 };
+
 
 
 
